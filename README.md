@@ -91,7 +91,7 @@ adflow-pro/ ├── client/
 
 
 # 1. Clone the repository
-git clone https://github.com/FA23-BCS-024/adflow-pro.git
+git clone https://github.com/nayab376/FA23-BCS-024.git
 cd adflow-pro
 
 # 2. Install server dependencies
