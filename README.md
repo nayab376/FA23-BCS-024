@@ -1,12 +1,23 @@
-# AdFlow Pro
+﻿# AdFlow Pro
 
-AdFlow Pro ek advanced midterm starter project hai jo sponsored listing marketplace ko model karta hai. Is initial version mein:
+AdFlow Pro ek advanced midterm starter project hai jo sponsored listing marketplace ko model karta hai. Is repo mein planning material aur working Next.js starter dono preserve kiye gaye hain.
+
+## Team Members
+
+| Name | Role |
+|------|------|
+| Nayab | Full Stack |
+| Sana | Full Stack |
+| Noor Fatima | Full Stack |
+
+## Initial Submission Includes
 
 - Next.js App Router based public marketplace UI
 - Client, moderator, aur admin dashboard previews
 - Supabase-ready database schema aur seed SQL
 - API routes for random learning question aur DB health check
 - Vercel deployment ke liye clean starter structure
+- Existing planning files from the original repository kept for reference
 
 ## Stack
 
@@ -15,6 +26,17 @@ AdFlow Pro ek advanced midterm starter project hai jo sponsored listing marketpl
 - Tailwind CSS 4
 - Supabase Postgres
 - Vercel deployment target
+
+## Project Overview
+
+- Clients paid listings submit karte hain
+- Moderators content review karte hain
+- Admin payments verify karta hai
+- Only approved ads limited package duration ke liye live jati hain
+
+## Ad Lifecycle
+
+Draft -> Submitted -> Under Review -> Payment Pending -> Payment Submitted -> Payment Verified -> Scheduled -> Published -> Expired
 
 ## Local Setup
 
@@ -43,15 +65,14 @@ App open karein: [http://localhost:3000](http://localhost:3000)
 - `/api/questions/random`
 - `/api/health/db`
 
-## GitHub Submission Tips
+## Legacy Material
 
-- Is folder `adflow-pro` ko hi apne new `nayab376/MIDTERM` repo mein push karein.
-- README, schema, aur initial dashboards marks lene ke liye strong first submission denge.
-- Next step mein auth, forms, real Supabase queries, aur cron endpoints add kiye ja sakte hain.
+- `client/`, `server/`, and `Midproject/` folders remote repo se preserve kiye gaye hain.
+- Current working Next.js starter top level par available hai.
 
 ## Vercel Deploy
 
 1. GitHub repo ko Vercel se import karein.
-2. Root directory `adflow-pro` set karein agar repo root par aur files bhi hon.
+2. Root directory `.` rakhain kyun ke Next.js app top level par hai.
 3. Same Supabase env vars Vercel project settings mein add karein.
 4. Deploy karein.
