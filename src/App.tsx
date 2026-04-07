@@ -55,6 +55,7 @@ function App() {
 
     try {
       const res = await fetch(`${API_URL}/api/ads?${params}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setAds(data);
     } catch (err) {
@@ -66,6 +67,7 @@ function App() {
   const fetchCategories = async () => {
     try {
       const res = await fetch(`${API_URL}/api/categories`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setCategories(await res.json());
     } catch (err) {
       console.error('Failed to fetch categories:', err);
@@ -75,6 +77,7 @@ function App() {
   const fetchStats = async () => {
     try {
       const res = await fetch(`${API_URL}/api/stats`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setStats(await res.json());
     } catch (err) {
       console.error('Failed to fetch stats:', err);
@@ -101,11 +104,12 @@ function App() {
     contact: string;
   }) => {
     try {
-      await fetch(`${API_URL}/api/ads`, {
+      const res = await fetch(`${API_URL}/api/ads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ad),
       });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setShowPostAd(false);
       fetchAds();
       fetchCategories();
