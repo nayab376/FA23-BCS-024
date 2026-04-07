@@ -1,6 +1,4 @@
-import { stats } from '../data/ads';
-
-export default function Hero({ onExplore }) {
+export default function Hero({ onExplore, onPostAd, stats = [] }) {
   return (
     <section style={{
       position: 'relative', overflow: 'hidden',
@@ -84,6 +82,7 @@ export default function Hero({ onExplore }) {
             }}
             onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent)'}
             onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border2)'}
+            onClick={onPostAd}
           >
             Post a Free Ad
           </button>

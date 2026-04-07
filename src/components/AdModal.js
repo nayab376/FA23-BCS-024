@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, MapPin, Shield, Star, Eye, Phone, MessageSquare, Heart, Share2, Flag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, MapPin, Shield, Star, Eye, Phone, MessageSquare, Heart } from 'lucide-react';
 
 export default function AdModal({ ad, onClose }) {
   const [liked, setLiked] = useState(false);

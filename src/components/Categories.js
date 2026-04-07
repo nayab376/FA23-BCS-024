@@ -1,6 +1,4 @@
-import { categories } from '../data/ads';
-
-export default function Categories({ activeCategory, setActiveCategory }) {
+export default function Categories({ activeCategory, setActiveCategory, categories }) {
   return (
     <section style={{ padding: '32px 0', borderBottom: '1px solid var(--border)' }}>
       <div className="container">

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { X, Upload, CheckCircle } from 'lucide-react';
-import { categories } from '../data/ads';
 
-export default function PostAdModal({ onClose }) {
+export default function PostAdModal({ onClose, categories = [], onSubmit }) {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ title: '', category: '', price: '', location: '', condition: 'New', description: '', phone: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [form, setForm] = useState({ title: '', category: '', price: '', location: '', condition: 'New', description: '', phone: '', sellerName: '', image: '' });
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
   const inputStyle = {
@@ -15,9 +16,31 @@ export default function PostAdModal({ onClose }) {
   };
   const labelStyle = { fontSize: 13, fontWeight: 600, color: 'var(--text2)', marginBottom: 6, display: 'block' };
 
-  const handleSubmit = () => {
-    setSubmitted(true);
-    setTimeout(() => { onClose(); }, 2500);
+  const validateStepOne = () => form.title && form.category && form.price && form.location;
+  const validateStepTwo = () => form.description && form.phone;
+
+  const handleSubmit = async () => {
+    if (!validateStepTwo()) {
+      setSubmitError('Please complete all required fields.');
+      return;
+    }
+
+    setSubmitError('');
+    setIsSubmitting(true);
+
+    try {
+      await onSubmit({
+        ...form,
+        featured: false,
+        verified: false,
+      });
+      setSubmitted(true);
+      setTimeout(() => { onClose(); }, 1800);
+    } catch (error) {
+      setSubmitError(error.message || 'Unable to post ad right now.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -82,6 +105,14 @@ export default function PostAdModal({ onClose }) {
                   <label style={labelStyle}>Phone Number *</label>
                   <input style={inputStyle} placeholder="+92 3XX XXXXXXX" value={form.phone} onChange={e => update('phone', e.target.value)} />
                 </div>
+                <div>
+                  <label style={labelStyle}>Seller Name (optional)</label>
+                  <input style={inputStyle} placeholder="e.g. Ahmed Traders" value={form.sellerName} onChange={e => update('sellerName', e.target.value)} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Image URL (optional)</label>
+                  <input style={inputStyle} placeholder="https://..." value={form.image} onChange={e => update('image', e.target.value)} />
+                </div>
                 <div style={{ border: '2px dashed var(--border2)', borderRadius: 12, padding: '28px', textAlign: 'center', cursor: 'pointer', background: 'var(--bg3)' }}>
                   <Upload size={24} color="var(--text3)" style={{ margin: '0 auto 8px' }} />
                   <div style={{ fontSize: 14, color: 'var(--text2)', fontWeight: 500 }}>Upload Photos</div>
@@ -90,6 +121,9 @@ export default function PostAdModal({ onClose }) {
               </div>
             )}
 
+            {submitError && (
+              <div style={{ color: 'var(--red)', fontSize: 13, marginTop: 16 }}>{submitError}</div>
+            )}
             <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
               {step === 2 && (
                 <button onClick={() => setStep(1)} style={{ flex: 1, height: 44, borderRadius: 10, background: 'var(--bg3)', color: 'var(--text)', fontWeight: 600, border: '1px solid var(--border2)' }}>
@@ -97,10 +131,18 @@ export default function PostAdModal({ onClose }) {
                 </button>
               )}
               <button
-                onClick={step === 1 ? () => setStep(2) : handleSubmit}
+                onClick={step === 1 ? () => {
+                  if (!validateStepOne()) {
+                    setSubmitError('Please fill all required fields before continuing.');
+                    return;
+                  }
+                  setSubmitError('');
+                  setStep(2);
+                } : handleSubmit}
+                disabled={isSubmitting}
                 style={{ flex: 2, height: 44, borderRadius: 10, background: 'var(--accent)', color: 'white', fontWeight: 700, fontSize: 15, boxShadow: '0 0 20px rgba(249,115,22,0.3)' }}
               >
-                {step === 1 ? 'Continue →' : '🚀 Post Ad'}
+                {step === 1 ? 'Continue →' : isSubmitting ? 'Posting...' : '🚀 Post Ad'}
               </button>
             </div>
           </div>
